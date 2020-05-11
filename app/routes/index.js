@@ -17,4 +17,40 @@ router.get('/login', function(req, res, next) { //affiche vers la page de connex
   if (req.session.userId) res.redirect("/myprofile");
   else res.render('./login');
 });
+
+router.get("/myprofile", function (req, res) { //si connecté affiche sur le profil sinon redirection à l'accueil
+  if (req.session.userId) {
+      connection.query("SELECT * FROM users WHERE id = ?", req.session.userId, function (err, result) {
+          if (err) throw(err);
+          else {
+            return res.render("./profile", { result: result });
+          }
+        }
+      );
+  } else {
+    res.redirect("/");
+  }
+});
+
+router.get("/logout", function (req, res) { //déconnexion
+  req.session.destroy(function (err) {
+    if (err) throw err;
+    else res.redirect("/");
+  });
+});
+
+router.get("/search_bc", function(req,res){ //affiche les autres utilisateurs
+  if(req.session.userId){
+
+    connection.query("SELECT * FROM users WHERE id != ? AND (id NOT IN (SELECT id_other_user FROM library WHERE id_user = ?) OR NOT EXISTS (SELECT id_other_user FROM library WHERE id_user = ?))", [req.session.userId, req.session.userId, req.session.userId], function(err, result){
+      if (err) throw (err);
+      else {
+        res.render("./search_bcards", {result: result});
+      }
+    });
+  } else {
+    res.redirect("/");
+  }
+});
+
 module.exports = router;
