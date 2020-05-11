@@ -10,6 +10,7 @@ const connection = require("./bdd");
 const inscrip = require("./auth/inscrip");
 const connec = require("./auth/connexion");
 const add_bcard = require("./bc_op/add_bcard");
+const show_p = require("./bc_op/showprofile");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -38,6 +39,7 @@ app.use('/users', usersRouter);
 app.use('/inscrip', inscrip);
 app.use('/connexion', connec);
 app.use('/add_bc', add_bcard);
+app.use('/showprofile', show_p);
 
 app.listen(8000, function () {
   console.log('Example app listening on port 8000!')
