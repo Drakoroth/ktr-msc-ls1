@@ -29,3 +29,11 @@ BCM is a social network business card management application.
 * Once this is done, type the command "node app.js" in order to start the application.
 
 * Modify the "bdd.js" file if necessary in order to enter your parameters for the database.
+
+# What is missing ?
+
+* Password encryption in the database -> node bcrypt package version issue
+
+* Display errors messages in the various forms.
+
+* Delete function for the bcards.
