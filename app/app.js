@@ -9,6 +9,7 @@ var logger = require('morgan');
 const connection = require("./bdd");
 const inscrip = require("./auth/inscrip");
 const connec = require("./auth/connexion");
+const add_bcard = require("./bc_op/add_bcard");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -36,6 +37,11 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/inscrip', inscrip);
 app.use('/connexion', connec);
+app.use('/add_bc', add_bcard);
+
+app.listen(8000, function () {
+  console.log('Example app listening on port 8000!')
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
