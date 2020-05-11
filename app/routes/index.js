@@ -19,6 +19,7 @@ router.get('/login', function(req, res, next) { //affiche vers la page de connex
 });
 
 router.get("/myprofile", function (req, res) { //si connecté affiche sur le profil sinon redirection à l'accueil
+  console.log("tentative");
   if (req.session.userId) {
       connection.query("SELECT * FROM users WHERE id = ?", req.session.userId, function (err, result) {
           if (err) throw(err);
@@ -30,6 +31,11 @@ router.get("/myprofile", function (req, res) { //si connecté affiche sur le pro
   } else {
     res.redirect("/");
   }
+});
+
+router.get('/showprofile', function(req, res, next) { //affiche le profil de l'utlisateur sélectionné dans la librairie
+  if (!req.session.userId) res.redirect("/");
+  else res.render('./showprofile');
 });
 
 router.get("/logout", function (req, res) { //déconnexion
@@ -66,9 +72,22 @@ router.get("/bcards_book", function(req,res){ //affiche les utilisateurs déjà 
   }
 });
 
-router.get('/showprofile', function(req, res, next) { //affiche le profil de l'utlisateur sélectionné dans la librairie
+router.get("/library", function(req,res){ //affiche les utilisateurs déjà séléctionnés
+  if(req.session.userId){
+    connection.query("SELECT * FROM other_cards WHERE id_user = ?", [req.session.userId], function(err, result){
+      if (err) throw (err);
+      else {
+        res.render("./library", {result: result});
+      }
+    });
+  } else {
+    res.redirect("/");
+  }
+});
+
+router.get('/create_bcard', function(req, res, next) { //affiche le profil de l'utlisateur sélectionné dans la librairie
   if (!req.session.userId) res.redirect("/");
-  else res.render('./showprofile');
+  else res.render('./create_bcard');
 });
 
 module.exports = router;

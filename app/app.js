@@ -10,6 +10,7 @@ const connection = require("./bdd");
 const inscrip = require("./auth/inscrip");
 const connec = require("./auth/connexion");
 const add_bcard = require("./bc_op/add_bcard");
+const new_bcard = require("./bc_op/new_bcard");
 const show_p = require("./bc_op/showprofile");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -24,13 +25,12 @@ app.use(session({ //session: garder les données
 	cookie: { secure: false }
 }));
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -39,6 +39,7 @@ app.use('/users', usersRouter);
 app.use('/inscrip', inscrip);
 app.use('/connexion', connec);
 app.use('/add_bc', add_bcard);
+app.use('/new_bc', new_bcard);
 app.use('/showprofile', show_p);
 
 app.listen(8000, function () {
