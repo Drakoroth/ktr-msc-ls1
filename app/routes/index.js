@@ -53,4 +53,17 @@ router.get("/search_bc", function(req,res){ //affiche les autres utilisateurs
   }
 });
 
+router.get("/bcards_book", function(req,res){ //affiche les utilisateurs déjà séléctionnés
+  if(req.session.userId){
+    connection.query("SELECT * FROM users WHERE id IN (SELECT id_other_user FROM library WHERE id_user = ?)", [req.session.userId], function(err, result){
+      if (err) throw (err);
+      else {
+        res.render("./bcards_book", {result: result});
+      }
+    });
+  } else {
+    res.redirect("/");
+  }
+});
+
 module.exports = router;
