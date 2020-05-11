@@ -66,4 +66,9 @@ router.get("/bcards_book", function(req,res){ //affiche les utilisateurs déjà 
   }
 });
 
+router.get('/showprofile', function(req, res, next) { //affiche le profil de l'utlisateur sélectionné dans la librairie
+  if (!req.session.userId) res.redirect("/");
+  else res.render('./showprofile');
+});
+
 module.exports = router;
